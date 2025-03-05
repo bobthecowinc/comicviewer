@@ -20,6 +20,6 @@ Bob The Cow comics may be used in your content, provided you follow these rules:
 The easiest way to download single comics is by going to the comic viewer at [comics.bobthecow.org](comics.bobthecow.org) and selecting your date, then right-clicking and selecting **Save image as...**
 ### Download all comics
 Comics available for download are from January 1, 2022 to February 7, 2025, with gaps at some points. To see all the gaps, visit the comic viewer and peruse the calendar.
-**To download all comics as a ZIP,** visit the page [comics.bobthecow.org/download](comics.bobthecow.org/download) and click the button. It will take several minutes to fetch the comics, and then you will get a ZIP file of roughly 223 megabytes.
+**To download all comics as a ZIP,** visit the page [comics.bobthecow.org/download](comics.bobthecow.org/download) and click the button. It will take several minutes to fetch the comics, and then you will get a ZIP file containing 898 comics of roughly 223 megabytes. Due to GitHub limitations, the files cannot be hosted here.
 
 **If you have questions, please reach out to [comicviewer@bobthecow.org](mailto:comicviewer@bobthecow.org)**
