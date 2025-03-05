@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Maintenance | Bob The Cow Comic Viewer</title>
+    <link rel="icon" href="https://www.bobthecow.org/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F5F0F2;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            padding: 10px;
+        }
+        .comic-box {
+            border: 2px solid #ddd;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 8px;
+        }
+        .comic-box img {
+            max-width: 100%;
+            max-height: 80vh;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: black;
+        }
+        #newYearMessage {
+            display: none;
+            color: red;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="https://bobthecow.org/logo.svg" alt="Bob The Cow logo" style="height:100px;">
+<h1>UNDER MAINTENANCE</h1>
+<p>Bob The Cow Comic Viewer is currently under maintenance.<br>You may continue reading comics on <a href=http://bobthecow.org/read/legacy>the legacy page</a>.</p>
+</div>

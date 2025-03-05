@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bob The Cow Comic Viewer</title>
+    <link rel="icon" href="https://www.bobthecow.org/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F5F0F2;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            padding: 10px;
+        }
+        .comic-box {
+            border: 2px solid #ddd;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 8px;
+        }
+        .comic-box img {
+            max-width: 100%;
+            max-height: 80vh;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: black;
+        }
+        #newYearMessage {
+            display: none;
+            color: red;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-buttons">
+            <button id="first" title="First"><svg class="icon" viewBox="0 0 24 24"><path d="M11 19V5l-7 7zm10 0V5l-7 7z"/></svg></button>
+            <button id="prev" title="Previous"><svg class="icon" viewBox="0 0 24 24"><path d="M15 19V5l-7 7z"/></svg></button>
+            <span id="date-display"></span>
+            <button id="next" title="Next"><svg class="icon" viewBox="0 0 24 24"><path d="M9 5v14l7-7z"/></svg></button>
+            <button id="last" title="Last"><svg class="icon" viewBox="0 0 24 24"><path d="M13 5v14l7-7zm-10 0v14l7-7z"/></svg></button>
+            <button id="calendar" title="Pick a date"><svg class="icon" viewBox="0 0 24 24"><path d="M3 4h18v2H3zm0 4h18v14H3z"/></svg></button>
+            <input type="text" id="calendarInput" style="display: none;">
+        </div>
+
+        <!-- New Year Message
+        <div id="newYearMessage">More comics, going back to 2022, are coming soon!</div>  -->
+
+        <div class="comic-box">
+            <img id="comic" src="" alt="Comic loading...">
+        </div>
+    </div>
+
+<script>
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const validDates = [];
+    let currentDateIndex = 0;
+
+    function generateValidDates() {
+        // Add 2022 ranges: Feb 14 - Sep 18 and Oct 31 - Dec 31
+        addDateRange("2022-01-01", "2022-09-19");
+        addDateRange("2022-10-31", "2024-06-16");
+
+        // Additional dates for specific weeks
+        for (let i = 9; i <= 15; i++) {
+            validDates.push(new Date(2024, 8, i).toISOString().split('T')[0]);
+        }
+        [10, 11, 12, 1, 2].forEach(month => {
+            for (let i = 1; i <= 7; i++) {
+                validDates.push(new Date(2024 + (month < 3 ? 1 : 0), month - 1, i).toISOString().split('T')[0]);
+            }
+        });
+    }
+
+    function addDateRange(start, end) {
+        let date = new Date(start);
+        let endDate = new Date(end);
+        while (date <= endDate) {
+            validDates.push(date.toISOString().split('T')[0]);
+            date.setDate(date.getDate() + 1);
+        }
+    }
+
+    function updateComic() {
+        let dateValue = validDates[currentDateIndex];
+        const dateObj = new Date(dateValue + 'T00:00:00');
+        let displayText = `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+        let fileName = `comics/${dateObj.getMonth() + 1}-${dateObj.getDate()}-${dateObj.getFullYear()}.jpg`;
+
+        document.getElementById("comic").src = fileName;
+        document.getElementById("date-display").innerText = displayText;
+        
+        document.getElementById("newYearMessage").style.display = dateValue === "2022-02-14" ? "block" : "none";
+    }
+
+    document.getElementById("calendar").addEventListener("click", () => document.getElementById("calendarInput").click());
+    document.getElementById("prev").addEventListener("click", () => { if (currentDateIndex > 0) { currentDateIndex--; updateComic(); } });
+    document.getElementById("next").addEventListener("click", () => { if (currentDateIndex < validDates.length - 1) { currentDateIndex++; updateComic(); } });
+    document.getElementById("first").addEventListener("click", () => { currentDateIndex = 0; updateComic(); });
+    document.getElementById("last").addEventListener("click", () => { currentDateIndex = validDates.length - 1; updateComic(); });
+
+    generateValidDates();
+    currentDateIndex = validDates.length - 1;
+
+    flatpickr("#calendar", {
+        dateFormat: "Y-m-d",
+        enable: validDates,
+        defaultDate: validDates[validDates.length - 1],
+        appendTo: document.body,
+        positionElement: document.getElementById("calendar"),
+        onChange: function(selectedDates) {
+            if (selectedDates.length > 0) {
+                let selectedDateStr = selectedDates[0].toISOString().split('T')[0];
+                let newIndex = validDates.indexOf(selectedDateStr);
+                if (newIndex !== -1) {
+                    currentDateIndex = newIndex;
+                    updateComic();
+                }
+            }
+        }
+    });
+
+    updateComic();
+</script>
+</body>
+</html>
