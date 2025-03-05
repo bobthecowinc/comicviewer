@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Comics</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #progress-container {
+            width: 80%;
+            margin: 20px auto;
+            display: none;
+        }
+        #progress-bar {
+            width: 0%;
+            height: 30px;
+            background: green;
+            text-align: center;
+            color: white;
+            line-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Download Comics</h1>
+    <p>Click the button below to download a ZIP file containing <b>898</b> comics. Estimated file size is <b>223mb</b><br><b>Last updated March 5, 2025</b></p>
+    <button onclick="fetchFilenamesAndDownload()">Download ZIP</button>
+    <div id="progress-container">
+        <div id="progress-bar">0%</div>
+    </div>
+    <p id="status"></p>
+    <br>
+    <p>Functioning progress bar! It actually shows you the completion precent.</p>
+    <script>
+        async function fetchFilenamesAndDownload() {
+            document.getElementById('status').innerText = "Fetching file list...";
+            try {
+                let response = await fetch('/comics/filenames.txt');
+                if (!response.ok) throw new Error("Failed to load filenames.txt");
+                let text = await response.text();
+                let filenames = text.split('\n').map(line => line.trim()).filter(line => line);
+                downloadComics(filenames);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('status').innerText = "Error loading filenames.";
+            }
+        }
+
+        async function downloadComics(filenames) {
+            document.getElementById('progress-container').style.display = 'block';
+            document.getElementById('status').innerText = "Fetching files...";
+            
+            let zip = new JSZip();
+            let count = 0;
+            let total = filenames.length;
+            
+            for (let filename of filenames) {
+                try {
+                    let response = await fetch(`/comics/${filename}`);
+                    if (!response.ok) throw new Error("Failed to fetch " + filename);
+                    let blob = await response.blob();
+                    zip.file(filename, blob);
+                } catch (error) {
+                    console.error(error);
+                    document.getElementById('status').innerText = "Error fetching some files.";
+                }
+                count++;
+                let progress = Math.round((count / total) * 100);
+                document.getElementById('progress-bar').style.width = progress + "%";
+                document.getElementById('progress-bar').innerText = progress + "%";
+            }
+            
+            document.getElementById('status').innerText = "Creating ZIP file...";
+            zip.generateAsync({ type: "blob" }).then(function(content) {
+                saveAs(content, "comics.zip");
+                document.getElementById('status').innerText = "Download complete!";
+            });
+        }
+    </script>
+</body>
+</html>
