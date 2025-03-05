@@ -10,7 +10,8 @@ There are 2 main ways of navigating.
 **Next/previous buttons:** These buttons allow you to go to the next and previous comic by date.
 
 **Date picker:** This component allows you to quickly select any date. Dates without comics are grayed out.
-This code is provided *"as is"*. No guarantee is made that the code will work for your purposes.
+
+**This code is provided *"as is"*. No guarantee is made that the code will work for your purposes.**
 
 ## Download Comics
 
