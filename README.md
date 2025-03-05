@@ -6,6 +6,7 @@ Bob The Cow Comic Viewer is a website hosted on [comics.bobthecow.org](comics.bo
 ## Features
 Bob The Cow Comic Viewer allows you to navigate through comics easily.
 There are 2 main ways of navigating.
+
 **Next/previous buttons:** These buttons allow you to go to the next and previous comic by date.
 
 **Date picker:** This component allows you to quickly select any date. Dates without comics are grayed out.
