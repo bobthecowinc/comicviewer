@@ -3,6 +3,8 @@
 
 Bob The Cow Comic Viewer is a website hosted on [comics.bobthecow.org](comics.bobthecow.org) and embedded on [bobthecow.org/read](bobthecow.org/read) as an easy way for anyone to read Bob The Cow comics.
 
+[Watch this video instead of reading this document](https://github.com/user-attachments/assets/a099f74c-9f05-4573-a627-497b8683cd3f)
+
 ## Features
 Bob The Cow Comic Viewer allows you to navigate through comics easily.
 There are 2 main ways of navigating.
